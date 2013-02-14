@@ -1,33 +1,40 @@
 <?php
 namespace LiteraryQuotes\Quoter;
-use LiteraryQuotes\Provider\QuoteProvider;
 
-class TwitterQuote extends Quote implements QuoteProvider
+use LiteraryQuotes\Provider\ArrayProvider;
+
+class TwitterQuote extends Quote implements ArrayProvider
 {
-	protected $twitterUser;
-	protected $numTweets;
-	protected $quotes;
+    protected $twitterUser;
+    protected $numTweets;
+    protected $quotes;
+    protected $twitterURL   = "https://api.twitter.com/1/statuses/user_timeline.json?screen_name=[1]&count=[2]";
+    protected $replacements;
 
-	public function __construct($twitterUser, $numTweets)
-	{
-		$this->twitterUser = $twitterUser;
-		$this->numTweets   = $numTweets;
-	}
+    public function __construct($twitterUser, $numTweets)
+    {
+        $this->twitterUser  = $twitterUser;
+        $this->numTweets    = $numTweets;
+        $this->replacements = array(
+                                '[1]'  => $this->twitterUser,
+                                '[2]'  => strval($this->numTweets)      
+                              );
+    }
+        
 
 
-	public function getQuotes()
-	{
+    public function getArray()
+    {
 
-	    $url           = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name={$this->twitterUser}&count={$this->numTweets}";
-	    $twitterQuotes = json_decode(file_get_contents($url));
+        $url = strtr($this->twitterURL, $this->replacements);
+        $twitterQuotes = json_decode(file_get_contents($url));
 
 
-	    foreach($twitterQuotes as $twitterQuote)
-	    {
-	        $this->quotes[] = $twitterQuote->text;
-	    }
+        foreach ($twitterQuotes as $twitterQuote) {
+            $this->quotes[] = $twitterQuote->text;
+        }
 
-	    return $this->quotes;
+        return $this->quotes;
 
-	}
+    }
 }

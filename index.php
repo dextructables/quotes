@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Citas Literarias</title>
-	</head>
-	<body>
-		<?php
-		
-		require_once 'init.php';
-		
-		$lq  = new LiteraryQuotes\Quoter\LocalQuote('xml/quote_list.xml');
-		$tq  = new LiteraryQuotes\Quoter\TwitterQuote('QuotesLiterary', 5);
+    <head>
+        <meta charset="utf-8">
+        <title>Citas Literarias</title>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <?php
+        
+        require 'autoloader.php';
+        
+        $localQuotes    = new LiteraryQuotes\Quoter\LocalQuote('data/quote_list.xml');
+        $twitterQuotes  = new LiteraryQuotes\Quoter\TwitterQuote('QuotesLiterary', 5);
+        $tags           = new LiteraryQuotes\Topics('php,xml,namespaces,closure');
 
 
-		$lq->setListName('Frases locales');
-		$tq->setListName('Frases Twitter');
+        $localQuotes->setListName('Frases locales');
+        $twitterQuotes->setListName('Frases Twitter');
+        ?>
 
-		echo $lq->getListName();
-		echo $lq->getFancyQuotes();
+        <div id="quotes">
+            <?php
+                echo "<h3>{$localQuotes->getListName()}</h3>";
+                echo $localQuotes->getFancyQuotes();
+            ?>
+        </div>
 
-		echo $tq->getListName();
-		echo $tq->getFancyQuotes();
-		
+        <div id="quotes">
+            <?php
+                echo "<h3>{$twitterQuotes->getListName()}</h3>";
+                echo $twitterQuotes->getFancyQuotes();
+            ?>
+        </div>
 
-		?>
-	</body>
-</html>	
+        <div id="tags">
+        <?php echo $tags->getTopicList(); ?>    
+        </div>
+
+    </body>
+</html>

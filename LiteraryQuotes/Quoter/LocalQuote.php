@@ -1,9 +1,9 @@
 <?php
 namespace LiteraryQuotes\Quoter;
-use LiteraryQuotes\Provider\QuoteProvider,
-    \SimpleXMLElement;
 
-class LocalQuote extends Quote implements QuoteProvider
+use LiteraryQuotes\Provider\ArrayProvider;
+
+class LocalQuote extends Quote implements ArrayProvider
 {
 
     protected $quotes;
@@ -16,9 +16,9 @@ class LocalQuote extends Quote implements QuoteProvider
     }
     
 
-    public function getQuotes()
+    public function getArray()
     {
-        $xmlFile        = new SimpleXMLElement($this->quoteFile, null, true);
+        $xmlFile        = new \SimpleXMLElement($this->quoteFile, null, true);
         $simpleXmlNodes = $xmlFile->xpath("//quote");
         $this->quotes   = array_map('strval', $simpleXmlNodes);
 

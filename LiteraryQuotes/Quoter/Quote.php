@@ -1,25 +1,30 @@
 <?php
 namespace LiteraryQuotes\Quoter;
-use LiteraryQuotes\Format\QuoteFormatter;
 
-class Quote
+use LiteraryQuotes\Format\ListFormatter;
+
+abstract class Quote
 {
-	protected $listName;
-	protected $formatter;
+    protected $listName;
+    protected $formatter;
 
-	public function setListName($listName)
-	{
-		$this->listName = $listName;
-	}
+    public function setListName($listName)
+    {
+        $this->listName = $listName;
+    }
 
-	public function getListName()
-	{
-		return $this->listName;
-	}
+    public function getListName()
+    {
+        return $this->listName;
+    }
 
-	public function getFancyQuotes()
-	{
-		$this->formatter = new QuoteFormatter($this);
-		return $this->formatter->getFormattedQuotes();
-	}
+    public function getFancyQuotes()
+    {
+        if (!isset($this->formatter)) {
+             $this->formatter = new ListFormatter($this);
+        }
+        
+        return $this->formatter->getList(); 
+    }
+
 }
