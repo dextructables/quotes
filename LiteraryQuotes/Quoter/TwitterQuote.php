@@ -34,7 +34,8 @@ class TwitterQuote extends Quote implements ArrayProvider
         $twitterQuotes = $this->twitterOauth->get($this->twitterURL,
                                                   array('screen_name' => $this->twitterUser,
                                                         'count' => $this->numTweets,
-                                                        'exclude_replies' => true)
+                                                        'exclude_replies' => true
+                                                        )
                                                  );
    
 
