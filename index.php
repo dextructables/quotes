@@ -8,7 +8,7 @@
     <body>
         <?php
         
-        require '/libraries/TwitterOauth/twitteroauth.php';
+        require './libraries/TwitterOauth/twitteroauth.php';
         require 'autoloader.php';
         
         $localQuotes    = new LiteraryQuotes\Quoter\LocalQuote('data/quote_list.xml');
